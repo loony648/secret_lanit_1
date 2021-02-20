@@ -11,20 +11,6 @@ headers = {
     'Accept-Encoding': 'gzip'
 }
 
-tradingPairsList =[
-    'SYMBOL',
-    'BID', 
-    'BID_SIZE', 
-    'ASK', 
-    'ASK_SIZE', 
-    'DAILY_CHANGE', 
-    'DAILY_CHANGE_RELATIVE', 
-    'LAST_PRICE', 
-    'VOLUME', 
-    'HIGH', 
-    'LOW'
-]
-
 class InfluxDBClient:
     def __init__(self, dbName, url):
         self.dbName = dbName
@@ -86,7 +72,7 @@ class InfluxDBClient:
         """
         InlineQuery = ''
         for bitfinexList in bitfinexLists:
-            if(len(bitfinexList) == len(tradingPairsList)):
+            if(bitfinexList[0][0] == 't'):
                 symbol, bid, bidSize, ask, askSize, dailyChange, dailyChangeRelative, lastPrice, volume, high, low = bitfinexList
                 InlineQuery += f'{self.dbName},pair={symbol} bid={bid},bid_size={bidSize},ask={ask},ask_size={askSize},daily_change={dailyChange},daily_change_rel={dailyChangeRelative},last_price={lastPrice},volume={volume},high={high},low={low}\n'
         return InlineQuery
